@@ -1,7 +1,7 @@
 function [f,z] = fftfenxi(t,y)
 %%%clear;clc;
 %%%
-N=length(t)
+N=length(t);
 %fft默认计算的信号是从0开始的
 %%%t=linspace(1,2,N);deta=t(2)-t(1);1/deta
 deta = t(2)-t(1);

@@ -38,6 +38,7 @@ mseb(i)=mse(i)/mmse*100;
 end;
 %画出每个IMF分量及最后一个剩余分量residual的图形
 figure(1)
+title('IMF')
 for i=1:m-1
 disp(['imf',int2str(i)]) ;disp([mse(i) mseb(i)]);
 end;
@@ -64,14 +65,14 @@ ylabel(['r',int2str(m-1)])
 
 %画出每个IMF分量及剩余分量residual的幅频曲线
 figure(2)
+title('residual')
 subplot(m+1,1,1)
 set(gcf,'color','w')
 [f,z]=fftfenxi(t,z);
 plot(f,z,'k')
 set(gca,'fontname','times New Roman')
 set(gca,'fontsize',14.0)
-ylabel(['initial signal',int2str(m-1),'Amplitude'])
-
+ylabel(['原始信号',int2str(m-1),'频谱'])
 for i=1:m-1
 subplot(m+1,1,i+1);
 set(gcf,'color','w')
@@ -79,7 +80,7 @@ set(gcf,'color','w')
 plot(f,z,'k')
 set(gca,'fontname','times New Roman')
 set(gca,'fontsize',14.0)
-ylabel(['imf',int2str(i),'Amplitude'])
+ylabel(['imf',int2str(i),'频谱'])
 end
 subplot(m+1,1,m+1);
 set(gcf,'color','w')
@@ -87,7 +88,7 @@ set(gcf,'color','w')
 plot(f,z,'k')
 set(gca,'fontname','times New Roman')
 set(gca,'fontsize',14.0)
-ylabel(['r',int2str(m-1),'Amplitude'])
+ylabel(['r',int2str(m-1),'频谱'])
 
 hx=hilbert(z);
 xr=real(hx);xi=imag(hx);
@@ -104,10 +105,12 @@ plot(t(1:N-1),sp)
 title('瞬时频率')
 
 %计算HHT时频谱和边际谱
+title('二维图显示HHT时频谱');
 [A,fa,tt]=hhspectrum(c);
 [E,tt1]=toimage(A,fa,tt,length(tt));
-figure(3)
+%%%figure(3)
 disp_hhs(E,tt1) %二维图显示HHT时频谱，E是求得的HHT谱
+
 %%%pause
 figure(4)
 for i=1:size(c,1)
@@ -118,6 +121,7 @@ title('HHT时频谱三维显示')
 hold on
 end
 hold off
+
 E=flipud(E);
 for k=1:size(E,1)
 bjp(k)=sum(E(k,:))*1/fs; 
@@ -229,13 +233,13 @@ set(gca,'YDir','normal')
 xlabel(['time'])
 ylabel(['normalized frequency'])
 title('Hilbert-Huang spectrum')
-function [f,z]=fftfenxi(t,y)
-L=length(t);N=2^nextpow2(L);
-%fft默认计算的信号是从0开始的
-t=linspace(t(1),t(L),N);deta=t(2)-t(1);
-m=0:N-1;
-f=1./(N*deta)*m;
-%下面计算的Y就是x(t)的傅里叶变换数值
-%Y=exp(i*4*pi*f).*fft(y)%将计算出来的频谱乘以exp(i*4*pi*f)得到频移后[-2,2]之间的频谱值
-Y=fft(y);
-z=sqrt(Y.*conj(Y));
+%%%function [f,z]=fftfenxi(t,y)
+%%%L=length(t);N=2^nextpow2(L);
+%%%%fft默认计算的信号是从0开始的
+%%%t=linspace(t(1),t(L),N);deta=t(2)-t(1);
+%%%m=0:N-1;
+%%%f=1./(N*deta)*m;
+%%%%下面计算的Y就是x(t)的傅里叶变换数值
+%%%%Y=exp(i*4*pi*f).*fft(y)%将计算出来的频谱乘以exp(i*4*pi*f)得到频移后[-2,2]之间的频谱值
+%%%Y=fft(y);
+%%%z=sqrt(Y.*conj(Y));
