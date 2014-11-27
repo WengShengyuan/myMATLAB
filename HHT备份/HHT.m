@@ -108,6 +108,7 @@ title('瞬时频率')
 title('二维图显示HHT时频谱');
 [A,fa,tt]=hhspectrum(c);
 [E,tt1]=toimage(A,fa,tt,length(tt));
+
 %%%figure(3)
 disp_hhs(E,tt1) %二维图显示HHT时频谱，E是求得的HHT谱
 
@@ -132,6 +133,7 @@ plot(f,bjp);
 xlabel('频率 / Hz');
 ylabel('信号幅值');
 title('信号边际谱')%要求边际谱必须先对信号进行EMD分解
+save final
 
 function [A,f,tt] = hhspectrum(x,t,l,aff)
 
