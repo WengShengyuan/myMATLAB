@@ -9,7 +9,7 @@ deta=t(2)-t(1);fs=1/deta;
 %%%z=x;
 x=z;
 c=emd(z);
-
+%c = eemd(z,1000,0.4);
 %计算每个IMF分量及最后一个剩余分量residual与原始信号的相关性
 [m,n]=size(c);
 for i=1:m;
@@ -69,10 +69,12 @@ title('residual')
 subplot(m+1,1,1)
 set(gcf,'color','w')
 [f,z]=fftfenxi(t,z);
+
 plot(f,z,'k')
 set(gca,'fontname','times New Roman')
 set(gca,'fontsize',14.0)
 ylabel(['原始信号',int2str(m-1),'频谱'])
+
 for i=1:m-1
 subplot(m+1,1,i+1);
 set(gcf,'color','w')
@@ -109,21 +111,24 @@ title('二维图显示HHT时频谱');
 [A,fa,tt]=hhspectrum(c);
 [E,tt1]=toimage(A,fa,tt,length(tt));
 
+
+save final
 %%%figure(3)
 disp_hhs(E,tt1) %二维图显示HHT时频谱，E是求得的HHT谱
 
 %%%pause
-figure(4)
-for i=1:size(c,1)
-faa=fa(i,:);
-[FA,TT1]=meshgrid(faa,tt1);%三维图显示HHT时频图
-surf(FA,TT1,E)
-title('HHT时频谱三维显示')
-hold on
-end
-hold off
-
+%%%figure(4)
+%%%for i=1:size(c,1)
+%%%faa=fa(i,:);
+%%%[FA,TT1]=meshgrid(faa,tt1);%三维图显示HHT时频图
+%%%surf(FA,TT1,E)
+%%%title('HHT时频谱三维显示')
+%%%hold on
+%%%end
+%%%hold off
 E=flipud(E);
+
+
 for k=1:size(E,1)
 bjp(k)=sum(E(k,:))*1/fs; 
 end
@@ -133,7 +138,8 @@ plot(f,bjp);
 xlabel('频率 / Hz');
 ylabel('信号幅值');
 title('信号边际谱')%要求边际谱必须先对信号进行EMD分解
-save final
+
+
 
 function [A,f,tt] = hhspectrum(x,t,l,aff)
 
@@ -235,6 +241,9 @@ set(gca,'YDir','normal')
 xlabel(['time'])
 ylabel(['normalized frequency'])
 title('Hilbert-Huang spectrum')
+
+
+
 %%%function [f,z]=fftfenxi(t,y)
 %%%L=length(t);N=2^nextpow2(L);
 %%%%fft默认计算的信号是从0开始的
