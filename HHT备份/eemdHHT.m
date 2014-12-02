@@ -1,4 +1,4 @@
-function HHT(t,z)
+function eemdHHT(t,z,times,Nbits)
 %%%clear;clc;clf;
 %%%N=2048;
 N=length(t);
@@ -8,8 +8,9 @@ deta=t(2)-t(1);fs=1/deta;
 %%%x=5*sin(2*pi*10*t)+5*sin(2*pi*35*t);
 %%%z=x;
 x=z;
-c=emd(z);
-%c = eemd(z,1000,0.4);
+%c=emd(z);
+
+c = eemd(z,times,Nbits);
 %计算每个IMF分量及最后一个剩余分量residual与原始信号的相关性
 [m,n]=size(c);
 for i=1:m;
